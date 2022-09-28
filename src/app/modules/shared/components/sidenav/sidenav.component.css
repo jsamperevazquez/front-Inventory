@@ -1,0 +1,44 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.is-mobile .dashboard-toolbar {
+  position: fixed;
+  z-index: 2;
+}
+
+h1.app {
+  margin-left: 17px;
+}
+
+ul li {
+  list-style: none;
+}
+
+.sidenav-container {
+  flex: 1;
+}
+
+.is-mobile .sidenav-container {
+  flex: 1 0 auto;
+}
+
+.profile-card {
+  text-align: center;
+  padding: 0 20px 20px 20px;
+
+}
+
+.header {
+  margin-top: 20px;
+}
+
+.icon {
+  margin-right: 15px;
+}
