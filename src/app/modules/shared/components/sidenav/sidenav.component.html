@@ -39,7 +39,7 @@
               </div>
 
               <mat-divider></mat-divider>
-              <a mat-list-item routerLink="nav.route" *ngFor="let nav of menuNav">
+              <a mat-list-item [routerLink]="nav.route" *ngFor="let nav of menuNav">
                 <mat-icon class="icon">{{nav.icon}}</mat-icon>
                 {{nav.name}}
               </a>
