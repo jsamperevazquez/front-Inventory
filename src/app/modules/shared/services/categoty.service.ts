@@ -21,4 +21,13 @@ export class CategotyService {
     return this.http.get(endPoint);
 
   }
+
+  /**
+   * Save the categories
+   */
+  saveCategories(body: any){
+    const endPoint = `${base_url}/categories`;
+    return this.http.post(endPoint, body);
+  }
 }
+
