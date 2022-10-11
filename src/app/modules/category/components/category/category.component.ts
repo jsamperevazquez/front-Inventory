@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
+import { ConfirmComponent } from 'src/app/modules/shared/components/confirm/confirm.component';
 import { CategotyService } from 'src/app/modules/shared/services/categoty.service';
 import { NewCategoryComponent } from '../new-category/new-category.component';
 
@@ -74,6 +75,21 @@ export class CategoryComponent implements OnInit {
         this.getCategories();
       } else if (result == 2) {
         this.openSnackBar("Error updating category", "Error");
+      }
+    });
+  }
+
+  delete(id: any){
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      data: {id: id},
+      width: '300px',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == 1) {
+        this.openSnackBar("Category deleted", "Good");
+        this.getCategories();
+      } else if (result == 2) {
+        this.openSnackBar("Error deleting category", "Error");
       }
     });
   }
