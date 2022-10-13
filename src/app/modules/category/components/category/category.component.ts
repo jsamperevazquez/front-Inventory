@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmComponent } from 'src/app/modules/shared/components/confirm/confirm.component';
@@ -24,10 +25,13 @@ export class CategoryComponent implements OnInit {
   displayedColumns: String[] = ['id', 'name', 'description', 'actions'];
   dataSource = new MatTableDataSource<CategoryElement>();
 
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
+
   getCategories() {
     this.categoryService.getCategories()
-      .subscribe(data => {
-        console.log("Respuesta categories: ", data);
+      .subscribe((data:any) => {
+        console.log("Response categories: ", data);
         this.processCategoriesResponse(data);
 
       }), ((error: any) => {
@@ -46,8 +50,12 @@ export class CategoryComponent implements OnInit {
       listCategory.forEach((element: CategoryElement) => {
         dataCategory.push(element);
       });
+    }else{
+      this.snackBar.open("Category not found","Incorrect ID");
     }
     this.dataSource = new MatTableDataSource<CategoryElement>(dataCategory);
+    this.dataSource.paginator = this.paginator;
+
   }
 
   openCategoryDialog(): void {
@@ -92,6 +100,16 @@ export class CategoryComponent implements OnInit {
         this.openSnackBar("Error deleting category", "Error");
       }
     });
+  }
+
+  search( data: string ){
+    if( data.length === 0 ){
+      return this.getCategories();
+    }
+    this.categoryService.getCategoryById(data)
+      .subscribe ( resp => {
+        this.processCategoriesResponse(resp);
+      })
   }
 
   openSnackBar(msg: string, action: string): MatSnackBarRef<SimpleSnackBar> {

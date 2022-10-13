@@ -7,7 +7,7 @@
         <mat-label>
           Search Categories
         </mat-label>
-        <input matInput #input>
+        <input matInput #input (keyup)="search(input.value)">
       </mat-form-field>
     </div>
 
