@@ -30,7 +30,7 @@ export class CategoryComponent implements OnInit {
 
   getCategories() {
     this.categoryService.getCategories()
-      .subscribe((data:any) => {
+      .subscribe((data: any) => {
         console.log("Response categories: ", data);
         this.processCategoriesResponse(data);
 
@@ -50,8 +50,8 @@ export class CategoryComponent implements OnInit {
       listCategory.forEach((element: CategoryElement) => {
         dataCategory.push(element);
       });
-    }else{
-      this.snackBar.open("Category not found","Incorrect ID");
+    } else {
+      this.snackBar.open("Category not found", "Incorrect ID");
     }
     this.dataSource = new MatTableDataSource<CategoryElement>(dataCategory);
     this.dataSource.paginator = this.paginator;
@@ -72,9 +72,9 @@ export class CategoryComponent implements OnInit {
     });
   }
 
-  edit(id: number, name: string, description: string){
+  edit(id: number, name: string, description: string) {
     const dialogRef = this.dialog.open(NewCategoryComponent, {
-      data: {id: id, name: name, description: description },
+      data: { id: id, name: name, description: description },
       width: '450px',
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -87,9 +87,9 @@ export class CategoryComponent implements OnInit {
     });
   }
 
-  delete(id: any){
+  delete(id: any) {
     const dialogRef = this.dialog.open(ConfirmComponent, {
-      data: {id: id},
+      data: { id: id },
       width: '300px',
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -102,12 +102,12 @@ export class CategoryComponent implements OnInit {
     });
   }
 
-  search( data: string ){
-    if( data.length === 0 ){
+  search(data: string) {
+    if (data.length === 0) {
       return this.getCategories();
     }
     this.categoryService.getCategoryById(data)
-      .subscribe ( resp => {
+      .subscribe(resp => {
         this.processCategoriesResponse(resp);
       })
   }
