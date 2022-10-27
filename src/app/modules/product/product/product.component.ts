@@ -14,9 +14,9 @@ import { NewProductComponent } from '../new-product/new-product.component';
 export class ProductComponent implements OnInit {
 
   constructor(private productService: ProductService,
-              public dialog: MatDialog,
-              private snackBar: MatSnackBar
-              ) { }
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) { }
   displayedColumns: String[] = ['id', 'name', 'price', 'amount', 'category', 'picture', 'actions'];
   dataSource = new MatTableDataSource<ProductElement>();
 
@@ -39,7 +39,7 @@ export class ProductComponent implements OnInit {
     if (resp.metadata[0].code == "00") {
       let listProduct = resp.product.products;
       listProduct.forEach((element: ProductElement) => {
-        element.category = element.category.name;
+        //element.category = element.category.name;
         element.picture = 'data:image/jpeg;base64,' + element.picture;
         dateProduct.push(element);
       });
@@ -50,7 +50,7 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  openProductDialog(){
+  openProductDialog() {
     const dialogRef = this.dialog.open(NewProductComponent, {
       width: '450px',
     });
@@ -66,6 +66,20 @@ export class ProductComponent implements OnInit {
   openSnackBar(msg: string, action: string): MatSnackBarRef<SimpleSnackBar> {
     return this.snackBar.open(msg, action, {
       duration: 2000
+    });
+  }
+  edit(id: number, name: string, price: number, amount: number, category: any) {
+    const dialogRef = this.dialog.open(NewProductComponent, {
+      width: '450px',
+      data: { id: id, name: name, price: price, amount: amount, category: category }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == 1) {
+        this.openSnackBar("Product edited", "Good");
+        this.getProduts();
+      } else if (result == 2) {
+        this.openSnackBar("Error editing product", "Error");
+      }
     });
   }
 

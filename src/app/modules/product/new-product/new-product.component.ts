@@ -20,13 +20,14 @@ export class NewProductComponent implements OnInit {
   formState: string = "";
   categories: Category[] = [];
   selectedFile: any;
-  imageName: string ="";
+  imageName: string = "";
 
 
   constructor(private fb: FormBuilder, private categoryService: CategotyService,
     private productService: ProductService,
     private dialogRef: MatDialogRef<NewProductComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+    this.formState = "Add";
     this.productForm = this.fb.group({
       name: ['', Validators.required],
       price: ['', Validators.required],
@@ -34,7 +35,10 @@ export class NewProductComponent implements OnInit {
       category: ['', Validators.required],
       picture: ['', Validators.required]
     })
-    this.formState = "Add"
+    if (data != null) {
+      this.updateForm(data);
+      this.formState = "Update";
+    }
   }
 
   ngOnInit(): void {
@@ -54,21 +58,31 @@ export class NewProductComponent implements OnInit {
     }
     const uploadImageData = new FormData();
     uploadImageData.append('picture', data.picture, data.picture.name);
-    uploadImageData.append('name', data.name),
+    uploadImageData.append('name', data.name);
     uploadImageData.append('price', data.price);
-    uploadImageData.append('amount', data.amount),
-    uploadImageData.append('categoryId', data.category)
+    uploadImageData.append('amount', data.amount);
+    uploadImageData.append('categoryId', data.category);
 
-    //Call the service to save product
-    this.productService.saveProduct(uploadImageData)
-    .subscribe((data: any)=>{
-      this.dialogRef.close(1);
-    },(error: any)=>{
-      console.log("Error saving new product", error);
-      this.dialogRef.close(2);
-    })
+    if (this.data != null) {
+      //Update the product
+      this.productService.updateProduct(uploadImageData, this.data.id)
+        .subscribe((data: any) => {
+          this.dialogRef.close(1);
+        }, (error: any) => {
+          console.log("Error updating product", error);
+          this.dialogRef.close(2);
+        })
+    } else {
+      //Call the service to save product
+      this.productService.saveProduct(uploadImageData)
+        .subscribe((data: any) => {
+          this.dialogRef.close(1);
+        }, (error: any) => {
+          console.log("Error saving new product", error);
+          this.dialogRef.close(2);
+        })
+    }
   }
-
   getCategories() {
     this.categoryService.getCategories()
       .subscribe((data: any) => {
@@ -77,10 +91,20 @@ export class NewProductComponent implements OnInit {
         console.log("Error to consult category", error);
       })
   }
-  onFileChanged(event: any){
+  onFileChanged(event: any) {
     this.selectedFile = event.target.files[0];
     console.log(this.selectedFile);
 
     this.imageName = event.target.files[0].name;
+  }
+
+  updateForm(data: any) {
+    this.productForm = this.fb.group({
+      name: [data.name, Validators.required],
+      price: [data.price, Validators.required],
+      amount: [data.amount, Validators.required],
+      category: [data.category.id, Validators.required],
+      picture: ['', Validators.required]
+    })
   }
 }

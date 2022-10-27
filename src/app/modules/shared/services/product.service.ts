@@ -22,8 +22,16 @@ export class ProductService {
   /**
    * Save the products
    */
-  saveProduct(body:any){
+  saveProduct(body: any) {
     const endPoint = `${base_url}/products`;
-    return this.http.post(endPoint,body);
+    return this.http.post(endPoint, body);
+  }
+
+  /**
+   * Edit product
+   */
+  updateProduct(body: any, id: any) {
+    const endPoint = `${base_url}/products/${id}`;
+    return this.http.put(endPoint, body);
   }
 }
