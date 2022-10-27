@@ -98,6 +98,17 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  search(name: any){
+    if( name.length === 0 ){
+      return this.getProduts();
+    }else {
+      this.productService.searchByName(name).
+      subscribe((resp: any)=>{
+        this.proccessProductResponse(resp);
+      })
+    }
+  }
+
   ngOnInit(): void {
     this.getProduts();
   }
