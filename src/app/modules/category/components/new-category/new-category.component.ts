@@ -14,8 +14,8 @@ export class NewCategoryComponent implements OnInit {
   FormState: string;
 
   constructor(private fb: FormBuilder, private categoryService: CategotyService,
-    private dialogRef: MatDialogRef<NewCategoryComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+              private dialogRef: MatDialogRef<NewCategoryComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any) {
     console.log(data);
     this.FormState = "Add";
 
@@ -23,7 +23,7 @@ export class NewCategoryComponent implements OnInit {
       name: ['', Validators.required],
       description: ['', Validators.required]
     });
-    if( data != null ){
+    if (data != null) {
       this.updateForm(data);
       this.FormState = "Update";
     }
@@ -37,24 +37,24 @@ export class NewCategoryComponent implements OnInit {
       name: this.categoryForm.get('name')?.value,
       description: this.categoryForm.get('description')?.value
     }
-    if(this.data != null ){
+    if (this.data != null) {
       //update register
       this.categoryService.updateCategory(data, this.data.id)
-          .subscribe( (data: any) =>{
-            this.dialogRef.close(1);
-          }), (error: any ) =>{
-            this.dialogRef.close(2);
-          }
+        .subscribe((data: any) => {
+          this.dialogRef.close(1);
+        }), (error: any) => {
+          this.dialogRef.close(2);
+        }
     }
     else {
       //Create new register
       this.categoryService.saveCategories(data)
-      .subscribe( (data: any) => {
-        console.log(data);
-        this.dialogRef.close(1);
-      }, (error: any) => {
-        this.dialogRef.close(2);
-      })
+        .subscribe((data: any) => {
+          console.log(data);
+          this.dialogRef.close(1);
+        }, (error: any) => {
+          this.dialogRef.close(2);
+        })
     }
   }
 
@@ -62,7 +62,7 @@ export class NewCategoryComponent implements OnInit {
     this.dialogRef.close(3);
   }
 
-  updateForm(data: any){
+  updateForm(data: any) {
     this.categoryForm = this.fb.group({
       name: [data.name, Validators.required],
       description: [data.description, Validators.required]

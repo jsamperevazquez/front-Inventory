@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { ProductService } from '../../shared/services/product.service';
+import { NewProductComponent } from '../new-product/new-product.component';
 
 @Component({
   selector: 'app-product',
@@ -10,7 +13,10 @@ import { ProductService } from '../../shared/services/product.service';
 })
 export class ProductComponent implements OnInit {
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService,
+              public dialog: MatDialog,
+              private snackBar: MatSnackBar
+              ) { }
   displayedColumns: String[] = ['id', 'name', 'price', 'amount', 'category', 'picture', 'actions'];
   dataSource = new MatTableDataSource<ProductElement>();
 
@@ -43,6 +49,26 @@ export class ProductComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
     }
   }
+
+  openProductDialog(){
+    const dialogRef = this.dialog.open(NewProductComponent, {
+      width: '450px',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == 1) {
+        this.openSnackBar("Product add", "Good");
+        this.getProduts();
+      } else if (result == 2) {
+        this.openSnackBar("Error saving product", "Error");
+      }
+    });
+  }
+  openSnackBar(msg: string, action: string): MatSnackBarRef<SimpleSnackBar> {
+    return this.snackBar.open(msg, action, {
+      duration: 2000
+    });
+  }
+
   ngOnInit(): void {
     this.getProduts();
   }
