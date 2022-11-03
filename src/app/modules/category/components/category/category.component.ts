@@ -5,6 +5,7 @@ import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/s
 import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmComponent } from 'src/app/modules/shared/components/confirm/confirm.component';
 import { CategotyService } from 'src/app/modules/shared/services/categoty.service';
+import { UtilService } from 'src/app/modules/shared/services/util.service';
 import { NewCategoryComponent } from '../new-category/new-category.component';
 
 @Component({
@@ -14,12 +15,16 @@ import { NewCategoryComponent } from '../new-category/new-category.component';
 })
 export class CategoryComponent implements OnInit {
 
+  isAdmin: any;
+
   constructor(private categoryService: CategotyService,
     public dialog: MatDialog,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar,
+    private util: UtilService) { }
 
   ngOnInit(): void {
     this.getCategories();
+    this.isAdmin = this.util.isAdmin();
   }
 
   displayedColumns: String[] = ['id', 'name', 'description', 'actions'];
