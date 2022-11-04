@@ -9,14 +9,16 @@
 }
 
 .chartContainer {
-  height: 90%;
-  width: 90%;
+  height: 50%;
+  width: 50%;
   padding-top: 4em;
+  padding-left: 2em;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: auto;
+  float: left;
+  position: relative;
 }
 
 .doughnutContainer {
@@ -28,4 +30,22 @@
   margin: auto;
   align-items: center;
   justify-content: center;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+body {
+  font-family: Roboto, sans-serif;
+}
+
+#chart {
+
+  flex-direction: column;
+  width: 30%;
+  height: 30%;
+  float: left;
+  position: relative;
+  padding-top: 4em;
+  padding-left: 4em;
+
 }

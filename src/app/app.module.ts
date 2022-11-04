@@ -33,7 +33,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     AppRoutingModule,
     BrowserAnimationsModule,
     DashboardModule,
-    KeycloakAngularModule
+    KeycloakAngularModule,
   ],
   providers: [
     {
