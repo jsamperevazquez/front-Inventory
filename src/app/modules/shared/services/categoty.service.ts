@@ -15,7 +15,7 @@ export class CategotyService {
    * Get all categories
    * @returns categories
    */
-  getCategories(){
+  getCategories() {
 
     const endPoint = `${base_url}/categories`
     return this.http.get(endPoint);
@@ -25,7 +25,7 @@ export class CategotyService {
   /**
    * Save the categories
    */
-  saveCategories(body: any){
+  saveCategories(body: any) {
     const endPoint = `${base_url}/categories`;
     return this.http.post(endPoint, body);
   }
@@ -33,16 +33,16 @@ export class CategotyService {
   /**
    *  Update category
    */
-  updateCategory(body: any, id: any){
+  updateCategory(body: any, id: any) {
     const endPoint = `${base_url}/categories/${id}`;
-    return this.http.put(endPoint,body);
+    return this.http.put(endPoint, body);
   }
 
   /**
    * Delete Category
    * @param body
    */
-  deleteCategory(id: any){
+  deleteCategory(id: any) {
     const endPoint = `${base_url}/categories/${id}`;
     return this.http.delete(endPoint);
   }
@@ -50,9 +50,19 @@ export class CategotyService {
   /**
    *  Serch by ID
    */
-  getCategoryById(id: any){
+  getCategoryById(id: any) {
     const endPoint = `${base_url}/categories/${id}`;
     return this.http.get(endPoint);
+  }
+
+  /**
+   * Export Categories excel
+   */
+  exportCategories() {
+    const endPoint = `${base_url}/categories/export/excel`;
+    return this.http.get(endPoint, {
+      responseType: 'blob'
+    });
   }
 }
 

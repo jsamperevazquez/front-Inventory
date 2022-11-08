@@ -113,6 +113,21 @@ export class ProductComponent implements OnInit {
     }
   }
 
+  exportExcel(){
+    this.productService.exportToExcel().
+    subscribe((data:any) =>{
+      let file = new Blob([data],{type: 'application/vnd.openxmlformats-officedocument.spreadsheetms.sheet'})
+      let fileURL = URL.createObjectURL(file);
+      var anchor = document.createElement("a");
+      anchor.download = "products.xlsx";
+      anchor.href = fileURL;
+      anchor.click();
+      this.openSnackBar("Exported file","OK");
+    },(error=>{
+      this.openSnackBar("Error exporting File", "NOK");
+    }));
+  }
+
   ngOnInit(): void {
     this.getProduts();
     this.isAdmin = this.util.isAdmin();
